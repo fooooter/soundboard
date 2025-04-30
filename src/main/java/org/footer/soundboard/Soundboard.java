@@ -146,7 +146,7 @@ public class Soundboard extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/music.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/music.png"))); // NOI18N
 
         playBtn.setBackground(new java.awt.Color(0, 204, 51));
         playBtn.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
