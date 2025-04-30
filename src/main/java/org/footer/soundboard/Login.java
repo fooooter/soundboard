@@ -194,13 +194,6 @@ public class Login extends javax.swing.JFrame {
         String responseBody = response.body();
         List<String> set_cookie = response.headers().map().getOrDefault("Set-Cookie", List.of());
         
-        if (set_cookie.isEmpty()) {
-            JOptionPane.showMessageDialog(rootPane, "An error occurred while processing the HTTP response.", "Error", ERROR_MESSAGE);
-            return;
-        }
-        
-        String token = set_cookie.getFirst().splitWithDelimiters(";", 2)[0].splitWithDelimiters("=", 2)[2];
-        
         if (!responseBody.isEmpty()) {
             ObjectMapper mapper = new ObjectMapper();
             try {
@@ -211,6 +204,13 @@ public class Login extends javax.swing.JFrame {
             }
             return;
         }
+        
+        if (set_cookie.isEmpty()) {
+            JOptionPane.showMessageDialog(rootPane, "An error occurred while processing the HTTP response.", "Error", ERROR_MESSAGE);
+            return;
+        }
+        
+        String token = set_cookie.getFirst().splitWithDelimiters(";", 2)[0].splitWithDelimiters("=", 2)[2];
         
         JOptionPane.showMessageDialog(rootPane, "Login successful!");
         
