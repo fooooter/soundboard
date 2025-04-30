@@ -118,9 +118,10 @@ public class Soundboard extends javax.swing.JFrame {
         currentTrackFilenameLabel = new javax.swing.JLabel();
         addTrackBtn = new javax.swing.JButton();
         removeTrackBtn = new javax.swing.JButton();
-        logOutBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Soundboard");
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(0, 204, 255));
 
@@ -144,7 +145,7 @@ public class Soundboard extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("/home/footer/Downloads/music.png")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/music.png"))); // NOI18N
 
         playBtn.setBackground(new java.awt.Color(0, 204, 51));
         playBtn.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
@@ -174,61 +175,44 @@ public class Soundboard extends javax.swing.JFrame {
             }
         });
 
-        logOutBtn.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
-        logOutBtn.setText("Log out");
-        logOutBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                logOutBtnActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(207, 207, 207)
-                .addComponent(playBtn)
-                .addGap(49, 49, 49)
-                .addComponent(addTrackBtn)
-                .addGap(49, 49, 49)
-                .addComponent(removeTrackBtn)
-                .addContainerGap(156, Short.MAX_VALUE))
+                .addGap(23, 23, 23)
+                .addComponent(prevBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(nextBtn)
+                .addGap(24, 24, 24))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(currentTrackFilenameLabel)
                 .addGap(359, 359, 359))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(207, 207, 207)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(258, 258, 258)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(logOutBtn))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addComponent(prevBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(nextBtn)))
-                .addGap(24, 24, 24))
+                        .addComponent(playBtn)
+                        .addGap(49, 49, 49)
+                        .addComponent(addTrackBtn)))
+                .addGap(49, 49, 49)
+                .addComponent(removeTrackBtn)
+                .addContainerGap(156, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addComponent(logOutBtn)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(12, 12, 12)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(prevBtn)
                     .addComponent(nextBtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(currentTrackFilenameLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 256, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(playBtn)
                     .addComponent(addTrackBtn)
@@ -418,34 +402,11 @@ public class Soundboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_removeTrackBtnActionPerformed
 
-    private void logOutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutBtnActionPerformed
-        HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://127.0.0.1:8080/api/logout"))
-                    .header("Cookie", "SESSION_ID=" + this.token)
-                    .GET()
-                    .build();
-
-        try {
-            httpClient.send(request, BodyHandlers.discarding());
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(rootPane, "An error occurred while sending HTTP request:\n" + e.toString(), "Error", ERROR_MESSAGE);
-            return;
-        }
-        
-        this.setVisible(false);
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Login().setVisible(true);
-            }
-        });
-    }//GEN-LAST:event_logOutBtnActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addTrackBtn;
     private javax.swing.JLabel currentTrackFilenameLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JButton logOutBtn;
     private javax.swing.JButton nextBtn;
     private javax.swing.JButton playBtn;
     private javax.swing.JButton prevBtn;
