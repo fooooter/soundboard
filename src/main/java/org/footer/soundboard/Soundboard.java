@@ -8,8 +8,8 @@ import com.aayushatharva.brotli4j.Brotli4jLoader;
 import com.aayushatharva.brotli4j.encoder.Encoder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -361,18 +361,16 @@ public class Soundboard extends javax.swing.JFrame {
                     .GET()
                     .build();
             
-            HttpResponse<byte[]> response;
+            HttpResponse<InputStream> response;
 
             try {
-                response = httpClient.send(request, BodyHandlers.ofByteArray());
+                response = httpClient.send(request, BodyHandlers.ofInputStream());
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(rootPane, "An error occurred while sending HTTP request:\n" + e.toString(), "Error", ERROR_MESSAGE);
                 return;
             }
 
-            byte[] responseBody = response.body();
-            
-            ByteArrayInputStream responseBodyStream = new ByteArrayInputStream(responseBody);
+            InputStream responseBodyStream = response.body();
             
             try {
                 player = new Player(responseBodyStream);
@@ -422,7 +420,7 @@ public class Soundboard extends javax.swing.JFrame {
 
     private void logOutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutBtnActionPerformed
         HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://127.0.0.1:8080/api/log_out"))
+                    .uri(URI.create("http://127.0.0.1:8080/api/logout"))
                     .header("Cookie", "SESSION_ID=" + this.token)
                     .GET()
                     .build();
